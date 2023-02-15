@@ -1,0 +1,20 @@
+[
+ {
+  "_id": 1,
+  "deviceAddress": "Azzurro",
+  "deviceLocation": "Azzurro",
+  "item1": 5,
+  "item2": 4,
+  "item3": 3,
+  "item4": 1
+ },
+ {
+  "_id": 2,
+  "deviceAddress": "Royal",
+  "deviceLocation": "Royal",
+  "item1": 5,
+  "item2": 3,
+  "item3": 5,
+  "item4": 4
+ }
+]
