@@ -33,11 +33,12 @@ function App() {
       item3: device.item3,
       item4: device.item4,
     };
-    axios.post("/newdevice", newDevice);
+    axios.post("/newdevice", newDevice); //ovo je kontrolni dio koda, cisto da vidimo da je unos prosao, zabiljezi se u konzoli
     console.log(newDevice);
     alert("device added ");
 
     setDevice({
+      //kada se klike DODAJ UREĐAJ ovaj dio koda vrati polja unosa na pocetno, pobrise unos
       deviceAddress: "",
       deviceLocation: "",
       item1: "",
