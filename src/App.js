@@ -1,6 +1,6 @@
 import "./App.css";
 import DataTable from "./Tabela";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 function App() {
@@ -12,6 +12,28 @@ function App() {
     item3: "",
     item4: "",
   });
+
+  const [devices, setDevices] = useState([
+    {
+      deviceAddress: "",
+      deviceLocation: "",
+      item1: "",
+      item2: "",
+      item3: "",
+      item4: "",
+    },
+  ]);
+
+  useEffect(() => {
+    fetch("/device")
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .then((jsonRes) => setDevices(jsonRes))
+      .catch((err) => console.log(err));
+  }, [devices]);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -88,6 +110,18 @@ function App() {
         placeholder="Insert Item 4 qty"
       ></input>
       <button onClick={addDevice}>DODAJ UREĐAJ</button>
+      {devices.map((device) => {
+        return (
+          <div key={device._id}>
+            <h1>{device.deviceAddress}</h1>
+            <h1>{device.deviceLocation}</h1>
+            <h1>{device.item1}</h1>
+            <h1>{device.item2}</h1>
+            <h1>{device.item3}</h1>
+            <h1>{device.item4}</h1>
+          </div>
+        );
+      })}
     </div>
   );
 }
