@@ -53,8 +53,40 @@ app.post("/newDevice", (req, res) => {
 });
 
 //delete route
+app.delete("/delete/:id", (req, res) => {
+  const id = req.params.id;
+
+  Device.findByIdAndDelete({ _id: id }, (req, res, err) => {
+    if (!err) {
+      console.log("Device deleted");
+    } else {
+      console.log(err);
+    }
+  });
+});
 
 //update route
+app.put("/put/:id", (req, res) => {
+  const updatedDevice = {
+    deviceAddress: req.body.deviceAddress,
+    deviceLocation: req.body.deviceLocation,
+    item1: req.body.item1,
+    item2: req.body.item2,
+    item3: req.body.item3,
+    item4: req.body.item4,
+  };
+  Device.findByIdAndUpdate(
+    { _id: req.params.id },
+    { $set: updatedDevice },
+    (req, res, err) => {
+      if (!err) {
+        console.log("Device updated");
+      } else {
+        console.log(err);
+      }
+    }
+  );
+});
 
 app.listen(port, function () {
   console.log("Express is running");

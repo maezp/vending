@@ -24,6 +24,17 @@ function App() {
     },
   ]);
 
+  const [isPut, setIsPut] = useState(false);
+  const [updatedDevice, setUpdatedDevice] = useState({
+    id: "",
+    deviceAddress: "",
+    deviceLocation: "",
+    item1: "",
+    item2: "",
+    item3: "",
+    item4: "",
+  });
+
   useEffect(() => {
     fetch("/device")
       .then((res) => {
@@ -69,56 +80,174 @@ function App() {
       item4: "",
     });
   }
+
+  function deleteDevice(id) {
+    axios.delete("/delete/" + id);
+    alert("device deleted");
+  }
+
+  function openUpdate(id) {
+    setIsPut(true); //this will enable us new form where we update device
+    setUpdatedDevice((prevInput) => {
+      return {
+        ...prevInput,
+        id: id,
+      };
+    });
+  }
+
+  function updateDevice(id) {
+    axios.put("/put/" + id, updatedDevice);
+    alert("Device updated");
+    console.log("Device updated");
+  }
+
+  function handleUpdate(event) {
+    const { name, value } = event.target;
+    setUpdatedDevice((prevInput) => {
+      return {
+        ...prevInput,
+        [name]: value,
+      };
+    });
+    console.log(updatedDevice);
+  }
+
   return (
     <div className="App" align="center">
-      <DataTable></DataTable>
+      <p></p>
+      {!isPut ? (
+        <div>
+          <input
+            onChange={handleChange}
+            name="deviceAddress"
+            value={device.deviceAddress}
+            placeholder="Device Address"
+          ></input>
+          <input
+            onChange={handleChange}
+            name="deviceLocation"
+            value={device.deviceLocation}
+            placeholder="Device Location"
+          ></input>
+          <input
+            onChange={handleChange}
+            name="item1"
+            value={device.item1}
+            placeholder="Insert Item 1 qty"
+          ></input>
+          <input
+            onChange={handleChange}
+            name="item2"
+            value={device.item2}
+            placeholder="Insert Item 2 qty"
+          ></input>
+          <input
+            onChange={handleChange}
+            name="item3"
+            value={device.item3}
+            placeholder="Insert Item 3 qty"
+          ></input>
+          <input
+            onChange={handleChange}
+            name="item4"
+            value={device.item4}
+            placeholder="Insert Item 4 qty"
+          ></input>
+          <button onClick={addDevice}>Add device</button>
+        </div>
+      ) : (
+        <div>
+          <input
+            onChange={handleUpdate}
+            name="deviceAddress"
+            value={updatedDevice.deviceAddress}
+            placeholder="Device Address"
+          ></input>
+          <input
+            onChange={handleUpdate}
+            name="deviceLocation"
+            value={updatedDevice.deviceLocation}
+            placeholder="Device Location"
+          ></input>
+          <input
+            onChange={handleUpdate}
+            name="item1"
+            value={updatedDevice.item1}
+            placeholder="Insert Item 1 qty"
+          ></input>
+          <input
+            onChange={handleUpdate}
+            name="item2"
+            value={updatedDevice.item2}
+            placeholder="Insert Item 2 qty"
+          ></input>
+          <input
+            onChange={handleUpdate}
+            name="item3"
+            value={updatedDevice.item3}
+            placeholder="Insert Item 3 qty"
+          ></input>
+          <input
+            onChange={handleUpdate}
+            name="item4"
+            value={updatedDevice.item4}
+            placeholder="Insert Item 4 qty"
+          ></input>
+          <button onClick={() => updateDevice(updatedDevice.id)}>
+            Update device
+          </button>
+        </div>
+      )}
 
-      <input
-        onChange={handleChange}
-        name="deviceAddress"
-        value={device.deviceAddress}
-        placeholder="Device Address"
-      ></input>
-      <input
-        onChange={handleChange}
-        name="deviceLocation"
-        value={device.deviceLocation}
-        placeholder="Device Location"
-      ></input>
-      <input
-        onChange={handleChange}
-        name="item1"
-        value={device.item1}
-        placeholder="Insert Item 1 qty"
-      ></input>
-      <input
-        onChange={handleChange}
-        name="item2"
-        value={device.item2}
-        placeholder="Insert Item 2 qty"
-      ></input>
-      <input
-        onChange={handleChange}
-        name="item3"
-        value={device.item3}
-        placeholder="Insert Item 3 qty"
-      ></input>
-      <input
-        onChange={handleChange}
-        name="item4"
-        value={device.item4}
-        placeholder="Insert Item 4 qty"
-      ></input>
-      <button onClick={addDevice}>DODAJ UREĐAJ</button>
+      <p></p>
+      <table border="2px" align="center">
+        <tr>
+          <th>Device address</th>
+          <th>Device location</th>
+          <th>Item 1</th>
+          <th>Item 2</th>
+          <th>Item 3</th>
+          <th>Item 4</th>
+          <th>Delete device</th>
+          <th>Update device</th>
+        </tr>
+      </table>
       {devices.map((device) => {
         return (
           <div key={device._id}>
-            <h1>{device.deviceAddress}</h1>
-            <h1>{device.deviceLocation}</h1>
-            <h1>{device.item1}</h1>
-            <h1>{device.item2}</h1>
-            <h1>{device.item3}</h1>
-            <h1>{device.item4}</h1>
+            <table border="2px" align="center">
+              <tr>
+                <td>
+                  <h3>{device.deviceAddress}</h3>
+                </td>
+                <td>
+                  <h3>{device.deviceLocation}</h3>
+                </td>
+                <td>
+                  <h3>{device.item1}</h3>
+                </td>
+                <td>
+                  <h3>{device.item2}</h3>
+                </td>
+                <td>
+                  <h3>{device.item3}</h3>
+                </td>
+                <td>
+                  <h3>{device.item4}</h3>
+                </td>
+                <td>
+                  <button onClick={() => deleteDevice(device._id)}>
+                    Delete device
+                  </button>
+                </td>
+                <td>
+                  <button onClick={() => openUpdate(device._id)}>
+                    Update device
+                  </button>
+                </td>
+              </tr>
+            </table>
           </div>
         );
       })}

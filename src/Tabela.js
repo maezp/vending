@@ -32,7 +32,17 @@ const columns: GridColDef[] = [
   },
 ];
 
-const rows = [];
+const rows = [
+  {
+    id: 1,
+    deviceLocation: "Snow",
+    deviceAddress: "Jon",
+    item1: 5,
+    item2: 3,
+    item3: 5,
+    item4: 4,
+  },
+];
 
 export default function DataTable() {
   return (
